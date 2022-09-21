@@ -14,12 +14,11 @@ use App\Http\Controllers\ActivitiesController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/activities', [ActivitiesController::class, 'index']);
+Route::get('/activities/details/{id}', [ActivitiesController::class, 'show']);
 Route::post('/activities', [ActivitiesController::class, 'store']);
+Route::put('/activities/{id}', [ActivitiesController::class, 'update']);
+Route::delete('/activities/delete/{id}', [ActivitiesController::class, 'destroy']);
 
-Route::get('/activities/get-table-html', [ActivitiesController::class, 'getTableHtml']);
+Route::get('/activities/table', [ActivitiesController::class, 'table']);
 

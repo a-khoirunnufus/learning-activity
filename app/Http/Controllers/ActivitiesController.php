@@ -24,7 +24,7 @@ class ActivitiesController extends Controller
         ]);
     }
 
-    public function getTableHtml() {
+    public function table() {
         $result = DB::select("
             WITH CTE AS
             (
@@ -151,7 +151,15 @@ class ActivitiesController extends Controller
      */
     public function show($id)
     {
-        //
+        $activity = Activity::find($id);
+
+        return response()->json([
+            'id' => $activity->id,
+            'method_id' => $activity->method_id,
+            'title' => $activity->title,
+            'start' => $activity->start->format('Y-m-d'),
+            'finish' => $activity->finish->format('Y-m-d'),
+        ]);
     }
 
     /**
@@ -174,7 +182,13 @@ class ActivitiesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $activity = Activity::find($id);
+        $activity->update($request->except('id'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil mengupdate data',
+        ]);
     }
 
     /**
@@ -185,6 +199,12 @@ class ActivitiesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $activity = Activity::find($id);
+        $activity->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menghapus data',
+        ]);
     }
 }

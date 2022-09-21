@@ -21,6 +21,7 @@ class CreateActivitiesTable extends Migration
             $table->date('start');
             $table->date('finish');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('activities', function (Blueprint $table) {

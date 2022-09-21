@@ -7,7 +7,7 @@
 @section('content')
 	<div class="mb-3 d-flex justify-content-between">
 		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-modal">
 		  + Tambah Activity
 		</button>
 
@@ -23,7 +23,7 @@
 	</div>
 
 	<!-- Create Modal -->
-	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal fade" id="create-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -53,7 +53,7 @@
 			    <label class="form-label">Tanggal Selesai</label>
 			    <input id="input-finish" name="finish" type="date" class="form-control" min="2022-01-01" max="2022-06-30" required>
 			  </div>
-			  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tambah</button>
+			  <button type="submit" class="btn btn-primary">Tambah</button>
 			</form>
 	      </div>
 	    </div>
@@ -63,6 +63,10 @@
 
 @push('scripts')
 <script>
+$( document ).ready(function() {
+ 
+	const createModal = new bootstrap.Modal('#create-modal');
+
 	renderTable();
 
 	$('#store-activity-form').submit(function(event) {
@@ -74,10 +78,10 @@
 		  data: formData,
 		  dataType: 'json',
 		  beforeSend: function() {
-		  	console.log('before send', formData);
 		  },
 		  success: function(data) {
-		  	console.log(data);
+		  	createModal.hide();
+		  	alert(data.message);
 		  	renderTable();
 		  },
 		});
@@ -87,13 +91,13 @@
 		$('#table-container').html('Sedang mengambil data, mohon tunggu...');
 		$.ajax({
 		  type: "GET",
-		  url: "{{ url('activities/get-table-html') }}",
+		  url: "{{ url('activities/table') }}",
 		  dataType: 'html',
 		  success: function(data) {
-		  	console.log('get result');
 		  	$('#table-container').html(data);
 		  },
 		});
 	}
+});
 </script>
 @endpush
