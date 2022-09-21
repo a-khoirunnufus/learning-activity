@@ -1,0 +1,16 @@
+body {
+	font-size: 14px;
+}
+
+.header {
+	height: 100px;
+	/*background-color: lightblue;*/
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.header__wrapper {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
