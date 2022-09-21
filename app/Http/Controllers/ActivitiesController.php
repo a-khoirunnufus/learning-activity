@@ -28,44 +28,50 @@ class ActivitiesController extends Controller
         $result = DB::select("
             WITH CTE AS
             (
-                SELECT 
+                SELECT
                     m.name as metode,
                     CASE 
-                        WHEN date_part('month', a.start) = '01' 
+                        WHEN a.deleted_at is not NULL THEN NULL
+                        WHEN date_part('month', a.start) = '07'  
                             THEN concat_ws(',', a.id, a.title, a.start, a.finish)
-                    END januari,
+                    END juli,
                     CASE 
-                        WHEN date_part('month', a.start) = '02' 
+                        WHEN a.deleted_at is not NULL THEN NULL
+                        WHEN date_part('month', a.start) = '08' 
                             THEN concat_ws(',', a.id, a.title, a.start, a.finish)
-                    END februari,
+                    END agustus,
                     CASE 
-                        WHEN date_part('month', a.start) = '03' 
+                        WHEN a.deleted_at is not NULL THEN NULL
+                        WHEN date_part('month', a.start) = '09' 
                             THEN concat_ws(',', a.id, a.title, a.start, a.finish)
-                    END maret,
+                    END september,
                     CASE 
-                        WHEN date_part('month', a.start) = '04' 
+                        WHEN a.deleted_at is not NULL THEN NULL
+                        WHEN date_part('month', a.start) = '10' 
                             THEN concat_ws(',', a.id, a.title, a.start, a.finish)
-                    END april,
+                    END oktober,
                     CASE 
-                        WHEN date_part('month', a.start) = '05' 
+                        WHEN a.deleted_at is not NULL THEN NULL
+                        WHEN date_part('month', a.start) = '11' 
                             THEN concat_ws(',', a.id, a.title, a.start, a.finish)
-                    END mei,
+                    END november,
                     CASE 
-                        WHEN date_part('month', a.start) = '06' 
+                        WHEN a.deleted_at is not NULL THEN NULL
+                        WHEN date_part('month', a.start) = '12' 
                             THEN concat_ws(',', a.id, a.title, a.start, a.finish)
-                    END juni,
+                    END desember,
                     m.order as urutan
                 FROM ref_methods m
                     LEFT JOIN activities a on a.method_id = m.id
             )
             SELECT
                 metode,
-                string_agg(januari, '|') as januari,
-                string_agg(februari, '|') as februari,
-                string_agg(maret, '|') as maret,
-                string_agg(april, '|') as april,
-                string_agg(mei, '|') as mei,
-                string_agg(juni, '|') as juni
+                string_agg(juli, '|') as juli,
+                string_agg(agustus, '|') as agustus,
+                string_agg(september, '|') as september,
+                string_agg(oktober, '|') as oktober,
+                string_agg(november, '|') as november,
+                string_agg(desember, '|') as desember
             FROM CTE
             GROUP BY metode, urutan
             ORDER BY urutan
@@ -110,16 +116,6 @@ class ActivitiesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -160,17 +156,6 @@ class ActivitiesController extends Controller
             'start' => $activity->start->format('Y-m-d'),
             'finish' => $activity->finish->format('Y-m-d'),
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

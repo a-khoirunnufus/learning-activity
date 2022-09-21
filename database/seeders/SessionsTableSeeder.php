@@ -15,10 +15,10 @@ class SessionsTableSeeder extends Seeder
     public function run()
     {
         DB::table('sessions')->insert([
-            'title' => 'Year 1', 
+            'title' => 'Year 2', 
             'year' => 2022, 
-            'month_begin' => 1,
-            'month_end' => 6,
+            'month_begin' => 7,
+            'month_end' => 12,
             'created_at' => now(), 
             'updated_at' => now(),
         ]);

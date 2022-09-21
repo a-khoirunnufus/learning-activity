@@ -10,12 +10,6 @@
 		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-modal">
 		  + Tambah Activity
 		</button>
-
-		<div>
-			<span class="badge bg-success">Berlangsung</span>
-			<span class="badge bg-secondary">Selesai</span>
-			<span class="badge bg-info">Akan Datang</span>
-		</div>
 	</div>
 
 	<div id="table-container">
@@ -47,11 +41,11 @@
 			  </div>
 			  <div class="mb-3">
 			    <label class="form-label">Tanggal Mulai</label>
-			    <input id="input-start" name="start" type="date" class="form-control" min="2022-01-01" max="2022-06-30" required>
+			    <input id="input-start" name="start" type="date" class="form-control" min="2022-07-01" max="2022-12-30" required>
 			  </div>
 			  <div class="mb-3">
 			    <label class="form-label">Tanggal Selesai</label>
-			    <input id="input-finish" name="finish" type="date" class="form-control" min="2022-01-01" max="2022-06-30" required>
+			    <input id="input-finish" name="finish" type="date" class="form-control" min="2022-07-01" max="2022-12-30" required>
 			  </div>
 			  <button type="submit" class="btn btn-primary">Tambah</button>
 			</form>

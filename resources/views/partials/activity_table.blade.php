@@ -2,21 +2,23 @@
   <thead>
     <tr class="table-secondary">
       <th scope="col">Metode</th>
-      <th scope="col">Januari</th>
-      <th scope="col">Februari</th>
-      <th scope="col">Maret</th>
-      <th scope="col">April</th>
-      <th scope="col">Mei</th>
-      <th scope="col">Juni</th>
+      <th scope="col">Juli</th>
+      <th scope="col">Agustus</th>
+      <th scope="col">September</th>
+      <th scope="col">Oktober</th>
+      <th scope="col">November</th>
+      <th scope="col">Desember</th>
     </tr>
   </thead>
   <tbody>
   	@foreach($data as $item)
   		<tr>
-			<td>{{ $item['metode'] }}</td>
+			<td>
+				<p>{{ $item['metode'] }}</p>
+			</td>
 			<td>
 				<div class="d-grid gap-2">
-				@foreach($item['januari'] as $itemb)
+				@foreach($item['juli'] as $itemb)
 					<button
 						type="button" class="btn activity-item btn-light" style="font-size: 12px"
 						data-activity-id="{{ $itemb['activity_id'] }}"
@@ -29,7 +31,7 @@
 			</td>
 			<td>
 				<div class="d-grid gap-2">
-				@foreach($item['februari'] as $itemb)
+				@foreach($item['agustus'] as $itemb)
 					<button
 						type="button" class="btn activity-item btn-light" style="font-size: 12px"
 						data-activity-id="{{ $itemb['activity_id'] }}"
@@ -42,7 +44,7 @@
 			</td>
 			<td>
 				<div class="d-grid gap-2">
-				@foreach($item['maret'] as $itemb)
+				@foreach($item['september'] as $itemb)
 					<button
 						type="button" class="btn activity-item btn-light" style="font-size: 12px"
 						data-activity-id="{{ $itemb['activity_id'] }}"
@@ -55,7 +57,7 @@
 			</td>
 			<td>
 				<div class="d-grid gap-2">
-				@foreach($item['april'] as $itemb)
+				@foreach($item['oktober'] as $itemb)
 					<button
 						type="button" class="btn activity-item btn-light" style="font-size: 12px"
 						data-activity-id="{{ $itemb['activity_id'] }}"
@@ -68,7 +70,7 @@
 			</td>
 			<td>
 				<div class="d-grid gap-2">
-				@foreach($item['mei'] as $itemb)
+				@foreach($item['november'] as $itemb)
 					<button
 						type="button" class="btn activity-item btn-light" style="font-size: 12px"
 						data-activity-id="{{ $itemb['activity_id'] }}"
@@ -81,7 +83,7 @@
 			</td>
 			<td>
 				<div class="d-grid gap-2">
-				@foreach($item['juni'] as $itemb)
+				@foreach($item['desember'] as $itemb)
 					<button
 						type="button" class="btn activity-item btn-light" style="font-size: 12px"
 						data-activity-id="{{ $itemb['activity_id'] }}"
@@ -106,6 +108,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+      	<div class="alert alert-info" role="alert">
+				  Status: <span id="activity-status"></span>
+				</div>
+
         <form id="update-activity-form">
         	<input id="update-id" type="hidden" name="id" value="">
 				  <div class="mb-3">
@@ -123,15 +129,15 @@
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">Tanggal Mulai</label>
-				    <input id="update-start" name="start" type="date" class="form-control" min="2022-01-01" max="2022-06-30" required>
+				    <input id="update-start" name="start" type="date" class="form-control" min="2022-07-01" max="2022-12-30" required>
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">Tanggal Selesai</label>
-				    <input id="update-finish" name="finish" type="date" class="form-control" min="2022-01-01" max="2022-06-30" required>
+				    <input id="update-finish" name="finish" type="date" class="form-control" min="2022-07-01" max="2022-12-30" required>
 				  </div>
-				  <button type="submit" class="btn btn-primary">Update</button>
+				  <button type="submit" class="btn btn-primary w-100">Update</button>
 				</form>
-				<button id="btn-delete-activity" data-activity-id="" class="btn btn-danger">Hapus</button>
+				<button id="btn-delete-activity" data-activity-id="" class="btn btn-danger mt-3 w-100">Hapus</button>
       </div>
     </div>
   </div>
@@ -151,6 +157,21 @@ $( document ).ready(function() {
 			  url: "{{ url('activities/details') }}"+`/${activityId}`,
 			  dataType: 'json',
 			  success: function(data) {
+			  	const currentDate = new Date().getTime();
+			  	const startDate = new Date(data.start).getTime();
+			  	const finishDate = new Date(data.finish).getTime();
+
+			  	if (startDate > currentDate) {
+				    // activity akan datang
+				    $('#activity-status').html('Activity Akan Datang');
+				  } else if (startDate <= currentDate && finishDate >= currentDate) {
+				    // activity berlangsung
+				    $('#activity-status').html('Activity Sedang Berlangsung');
+				  } else if (finishDate < currentDate) {
+				    // activity selesai
+				    $('#activity-status').html('Activity Telah Selesai');
+				  }
+
 			  	$('#update-id').val(data.id);
 			  	$('#update-method').val(data.method_id.toString());
 			  	$('#update-title').val(data.title);
